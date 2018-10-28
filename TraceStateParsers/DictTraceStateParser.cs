@@ -22,7 +22,7 @@ namespace TraceStateParsers {
 			}
 			foundTraceStateEntry = null;
 			if (dict.TryGetValue(searchKey, out string found)) {
-				foundTraceStateEntry = dict[searchKey];
+				foundTraceStateEntry = found;
 				dict.Remove(searchKey);
 			}
 
