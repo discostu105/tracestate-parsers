@@ -22,11 +22,11 @@ namespace TraceStateParsers {
 				int endPos = traceState.IndexOf(",", startPos + 1, StringComparison.Ordinal);
 				if (endPos != -1) {
 					// found in middle
-					foundTraceStateEntry = traceState.Substring(startPos + searchKeyWithEquals.Length, endPos - startPos - searchKeyWithEquals.Length);
+					foundTraceStateEntry = traceState.Substring(startPos + searchKeyWithEquals.Length, endPos - startPos - searchKeyWithEquals.Length).Trim();
 					strippedTraceStateSb.Append(traceState.Substring(endPos + 1).Trim());
 				} else {
 					// found at end
-					foundTraceStateEntry = traceState.Substring(startPos + searchKeyWithEquals.Length);
+					foundTraceStateEntry = traceState.Substring(startPos + searchKeyWithEquals.Length).Trim();
 				}
 				strippedTraceState = strippedTraceStateSb.ToString().Trim();
 				if (strippedTraceState.StartsWith(",")) {
@@ -37,7 +37,7 @@ namespace TraceStateParsers {
 				}
 			} else {
 				// not found
-				strippedTraceState = traceState;
+				strippedTraceState = traceState.Trim();
 			}
 		}
 	}

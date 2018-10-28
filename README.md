@@ -10,7 +10,9 @@ This is an attempt to get a grasp of complexity and performance of different imp
   * Handling of different datatypes (string, binary)
     * just plain strings are currently returned
 
-Take a look at the implementations [here](TraceStateParsers)
+Take a look at the implementations [here](TraceStateParsers).
+
+The various `input` definitions can be found [here](TraceStateParsers.Benchmarks/Benchmarks.cs#L37).
 
 ## Preliminary benchmark results:
 ``` ini

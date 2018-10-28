@@ -22,14 +22,14 @@ namespace TraceStateParsers {
 
 		private static void EntryFound(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref ParserContext ctx) {
 			if (key.Equals(searchKey, StringComparison.Ordinal)) {
-				ctx.foundTraceStateEntry = value;
+				ctx.foundTraceStateEntry = value.Trim();
 			} else {
 				if (ctx.strippedEntryCount > 0) {
 					ctx.strippedTraceStateSb.Append(", ");
 				}
-				ctx.strippedTraceStateSb.Append(key);
+				ctx.strippedTraceStateSb.Append(key.Trim());
 				ctx.strippedTraceStateSb.Append("=");
-				ctx.strippedTraceStateSb.Append(value);
+				ctx.strippedTraceStateSb.Append(value.Trim());
 				ctx.strippedEntryCount++;
 			}
 		}
@@ -38,6 +38,7 @@ namespace TraceStateParsers {
 			if (string.IsNullOrEmpty(traceState)) {
 				foundTraceStateEntry = null;
 				strippedTraceState = string.Empty;
+				return;
 			}
 			
 			fixed (char* traceStatePtr = traceState) {
@@ -47,7 +48,8 @@ namespace TraceStateParsers {
 					str = traceStatePtr,
 					len = traceState.Length,
 					entryFoundCallback = new EntryFoundCallback(EntryFound),
-					strippedTraceStateSb = new StringBuilder(traceState.Length)
+					strippedTraceStateSb = new StringBuilder(traceState.Length),
+					c = traceStatePtr[0]
 				};
 				ParseTraceState(ref ctx, searchKey);
 

@@ -25,7 +25,7 @@ namespace TraceStateParsers {
 				}
 			}
 			if (foundTraceStateEntry == null) {
-				strippedTraceState = traceState;
+				strippedTraceState = traceState.Trim();
 			} else {
 				strippedTraceState = nonSearchedEntriesSb.ToString();
 			}
