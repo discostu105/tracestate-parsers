@@ -36,24 +36,30 @@ namespace TraceStateParsers.Benchmarks {
 
 		public IEnumerable<Input> TraceStateParams() {
 			yield return new Input("emtpy",
-				"", "fw5-29a-3039/dt");
+				traceState: "",
+				searchKey: "fw5-29a-3039/dt");
 			yield return new Input("single",
-				"fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"", "fw5-29a-3039/dt");
+				traceState: "fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"",
+				searchKey: "fw5-29a-3039/dt");
 			yield return new Input("multi_firstpos",
-				"fw5 -29a-3039/dt=\"1;FEC354CD6;1;2;727c\", msappid=\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*", "fw5-29a-3039/dt");
+				traceState: "fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\", msappid=\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*",
+				searchKey: "fw5-29a-3039/dt");
 			yield return new Input("multi_lastpos",
-				"msappid =\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*, fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"", "fw5-29a-3039/dt");
-			yield return new Input("multi_lastpos_miss",
-				"msappid =\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*, congo=\"1;FEC354CD6;1;2;727c\"", "fw5-29a-3039/dt");
-			yield return new Input("multi_lastpos_long", 
-				"msappid=\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxJdkjfsijeiSJKFJKSFA==*, fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"", "fw5-29a-3039/dt");
-			yield return new Input("multi_lastpos_long_blanks",
-				"                   msappid=\"abcdef-12334567-fw5-xyzasdf-292929\",                                                   nr=*XHFUSAKJFIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxJdkjfsijeiSJKFJKSFA==*,                                                                                     fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"", "fw5-29a-3039/dt");
-			yield return new Input("multi_firstpos_long_blanks",
-				"        fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"           msappid=\"abcdef-12334567-fw5-xyzasdf-292929\",                                                   nr=*XHFUSAKJFIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxJdkjfsijeiSJKFJKSFA==*,                                                                                     ", "fw5-29a-3039/dt");
-
+				traceState: "msappid=\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*, fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"",
+				searchKey: "fw5-29a-3039/dt");
+			yield return new Input("multi_miss",
+				traceState: "msappid=\"abcdef-12334567-fw5-xyzasdf-292929\", nr=*XHFUSAKJFIJdkjfsijeiSJKFJKSFA==*, congo=\"1;FEC354CD6;1;2;727c\"",
+				searchKey: "fw5-29a-3039/dt");
+			yield return new Input("multi_lastpos_long",
+				traceState: "msappid=\"abcdef-12334567-fw5-xyzasdf-292929\",                                 nr=*XHFUSAKJFIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxJdkjfsijeiSJKFJKSFA==*,                                                                                                    fw5-29a-3039/dt=\"1;FEC354CD6;1;2;727c\"",
+				searchKey: "fw5-29a-3039/dt");
+			yield return new Input("many_firstpos",
+				traceState: "a=b,c=d,e=f,g=h,i=j,k=l,m=n,p=r,s=t,u=v,w=x,y=z",
+				searchKey: "a");
+			yield return new Input("many_lastpos",
+				traceState: "a=b,c=d,e=f,g=h,i=j,k=l,m=n,p=r,s=t,u=v,w=x,y=z",
+				searchKey: "y");
 		}
-
 
 		[Benchmark]
 		[ArgumentsSource(nameof(TraceStateParams))]
