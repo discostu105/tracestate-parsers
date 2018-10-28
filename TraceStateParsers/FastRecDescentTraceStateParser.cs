@@ -3,19 +3,10 @@ using System.Text;
 
 namespace TraceStateParsers {
 	/// <summary>
-	/// Uses a recursive descent parser
-	/// tries to avoid allocations by using Spans (string_views)
-	/// for every detected entry, there is a callback, that can be used to check for the needed entry
-	/// entry-counting and size-checks for every entry are possible
+	/// Compared to the RecDescentTraceStateParser implementation, this impl uses c# "unsafe" code to make array index access faster
 	/// </summary>
 	public class FastRecDescentTraceStateParser {
-		private delegate void EntryFoundCallback(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref Output output);
-		
-		private ref struct Output {
-			public StringBuilder strippedTraceStateSb;
-			public ReadOnlySpan<char> foundTraceStateEntry;
-			public int strippedEntryCount;
-		}
+		private delegate void EntryFoundCallback(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref ParserContext ctx);
 
 		private unsafe ref struct ParserContext {
 			public char* str; // string to parse
@@ -23,19 +14,23 @@ namespace TraceStateParsers {
 			public char c; // current char
 			public int pos; // current pos
 			public EntryFoundCallback entryFoundCallback;
+
+			public StringBuilder strippedTraceStateSb;
+			public ReadOnlySpan<char> foundTraceStateEntry;
+			public int strippedEntryCount;
 		}
 
-		private static void EntryFound(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref Output output) {
+		private static void EntryFound(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref ParserContext ctx) {
 			if (key.Equals(searchKey, StringComparison.Ordinal)) {
-				output.foundTraceStateEntry = value;
+				ctx.foundTraceStateEntry = value;
 			} else {
-				if (output.strippedEntryCount > 0) {
-					output.strippedTraceStateSb.Append(", ");
+				if (ctx.strippedEntryCount > 0) {
+					ctx.strippedTraceStateSb.Append(", ");
 				}
-				output.strippedTraceStateSb.Append(key);
-				output.strippedTraceStateSb.Append("=");
-				output.strippedTraceStateSb.Append(value);
-				output.strippedEntryCount++;
+				ctx.strippedTraceStateSb.Append(key);
+				ctx.strippedTraceStateSb.Append("=");
+				ctx.strippedTraceStateSb.Append(value);
+				ctx.strippedEntryCount++;
 			}
 		}
 
@@ -44,10 +39,6 @@ namespace TraceStateParsers {
 				foundTraceStateEntry = null;
 				strippedTraceState = string.Empty;
 			}
-
-			var output = new Output {
-				strippedTraceStateSb = new StringBuilder(traceState.Length)
-			};
 			
 			fixed (char* traceStatePtr = traceState) {
 				// do some work
@@ -55,12 +46,13 @@ namespace TraceStateParsers {
 				var ctx = new ParserContext {
 					str = traceStatePtr,
 					len = traceState.Length,
-					entryFoundCallback = new EntryFoundCallback(EntryFound)
+					entryFoundCallback = new EntryFoundCallback(EntryFound),
+					strippedTraceStateSb = new StringBuilder(traceState.Length)
 				};
-				ParseTraceState(ref ctx, searchKey, ref output);
+				ParseTraceState(ref ctx, searchKey);
 
-				foundTraceStateEntry = output.foundTraceStateEntry.Length == 0 ? null : output.foundTraceStateEntry.ToString();
-				strippedTraceState = output.strippedTraceStateSb.ToString();
+				foundTraceStateEntry = ctx.foundTraceStateEntry.Length == 0 ? null : ctx.foundTraceStateEntry.ToString();
+				strippedTraceState = ctx.strippedTraceStateSb.ToString();
 			}
 
 		}
@@ -73,7 +65,7 @@ namespace TraceStateParsers {
 			return true;
 		}
 
-		private static void ParseTraceState(ref ParserContext ctx, string searchKey, ref Output output) {
+		private static void ParseTraceState(ref ParserContext ctx, string searchKey) {
 			do {
 				switch (ctx.c) {
 					case ' ':
@@ -81,16 +73,16 @@ namespace TraceStateParsers {
 						ctx.pos++;
 						break;
 					default:
-						ParseEntry(ref ctx, searchKey, ref output);
+						ParseEntry(ref ctx, searchKey);
 						break;
 				}
 			} while (LookAhead(ref ctx));
 		}
 
-		private static void ParseEntry(ref ParserContext ctx, string searchKey, ref Output output) {
+		private static void ParseEntry(ref ParserContext ctx, string searchKey) {
 			if (ParseKey(ref ctx, out var key)) {
 				var value = ParseValue(ref ctx);
-				ctx.entryFoundCallback(key, value, searchKey, ref output);
+				ctx.entryFoundCallback(key, value, searchKey, ref ctx);
 			}
 		}
 
@@ -101,12 +93,10 @@ namespace TraceStateParsers {
 					case ' ':
 					case ',':
 						return new ReadOnlySpan<char>(ctx.str + startPos, ctx.pos - startPos - 1);
-						//return ctx.str.AsSpan().Slice(startPos, ctx.pos - startPos - 1);
 				}
 			} while (NextChar(ref ctx));
 			// eol
 			return new ReadOnlySpan<char>(ctx.str + startPos, ctx.pos - startPos);
-			//return ctx.str.AsSpan().Slice(startPos, ctx.pos - startPos);
 		}
 
 		private unsafe static bool ParseKey(ref ParserContext ctx, out ReadOnlySpan<char> key) {
@@ -114,7 +104,6 @@ namespace TraceStateParsers {
 			do {
 				switch (ctx.c) {
 					case '=':
-						//key = ctx.str.AsSpan().Slice(startPos, ctx.pos - startPos - 1);
 						key = new ReadOnlySpan<char>(ctx.str + startPos, ctx.pos - startPos - 1);
 						return true;
 				}
@@ -132,5 +121,4 @@ namespace TraceStateParsers {
 			return true;
 		}
 	}
-
 }
