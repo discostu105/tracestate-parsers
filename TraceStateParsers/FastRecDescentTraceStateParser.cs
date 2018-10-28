@@ -20,20 +20,6 @@ namespace TraceStateParsers {
 			public int strippedEntryCount;
 		}
 
-		private static void EntryFound(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref ParserContext ctx) {
-			if (key.Equals(searchKey, StringComparison.Ordinal)) {
-				ctx.foundTraceStateEntry = value.Trim();
-			} else {
-				if (ctx.strippedEntryCount > 0) {
-					ctx.strippedTraceStateSb.Append(", ");
-				}
-				ctx.strippedTraceStateSb.Append(key.Trim());
-				ctx.strippedTraceStateSb.Append("=");
-				ctx.strippedTraceStateSb.Append(value.Trim());
-				ctx.strippedEntryCount++;
-			}
-		}
-
 		public static unsafe void Parse(string traceState, string searchKey, out string foundTraceStateEntry, out string strippedTraceState) {
 			if (string.IsNullOrEmpty(traceState)) {
 				foundTraceStateEntry = null;
@@ -42,8 +28,6 @@ namespace TraceStateParsers {
 			}
 			
 			fixed (char* traceStatePtr = traceState) {
-				// do some work
-
 				var ctx = new ParserContext {
 					str = traceStatePtr,
 					len = traceState.Length,
@@ -57,6 +41,20 @@ namespace TraceStateParsers {
 				strippedTraceState = ctx.strippedTraceStateSb.ToString();
 			}
 
+		}
+
+		private static void EntryFound(ReadOnlySpan<char> key, ReadOnlySpan<char> value, string searchKey, ref ParserContext ctx) {
+			if (key.Equals(searchKey, StringComparison.Ordinal)) {
+				ctx.foundTraceStateEntry = value.Trim();
+			} else {
+				if (ctx.strippedEntryCount > 0) {
+					ctx.strippedTraceStateSb.Append(", ");
+				}
+				ctx.strippedTraceStateSb.Append(key.Trim());
+				ctx.strippedTraceStateSb.Append("=");
+				ctx.strippedTraceStateSb.Append(value.Trim());
+				ctx.strippedEntryCount++;
+			}
 		}
 
 		private unsafe static bool NextChar(ref ParserContext ctx) {
