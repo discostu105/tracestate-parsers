@@ -4,7 +4,7 @@ using System.Text;
 namespace TraceStateParsers {
 	/// <summary>
 	/// string split by comma, iterate over entries, split each by '='
-	/// put non-search results into array and use it to string.join again
+	/// concatenate non-search results a StringBuilder
 	/// </summary>
 	public static class StringSplitTraceStateParser {
 		public static void Parse(string traceState, string searchKey, out string foundTraceStateEntry, out string strippedTraceState) {
