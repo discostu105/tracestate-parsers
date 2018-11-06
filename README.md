@@ -6,7 +6,7 @@ This is an attempt to get a grasp of complexity and performance of different imp
 
  ## Features currently *not* implemented:
   * Detection of violations of TraceContext spec (e.g. size limits, count limits)
-    * some implementations could easily add these checks (`StringSplitParser`, `RecDescentParser`, `FastRecDescentParser`, `DictParser`), while others could not so easily (`StringSearchParser`)
+    * some implementations could easily add these checks (`StringSplitParser`, `RecDescentParser`, `FastRecDescentParser`, `DictParser`, `FastTokenizerParser`), while others could not so easily (`StringSearchParser`)
   * Handling of different datatypes (string, binary)
     * just plain strings are currently returned
 
