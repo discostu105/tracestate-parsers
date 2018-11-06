@@ -42,6 +42,7 @@ namespace TraceStateParsers {
 				strippedTraceState = string.Empty;
 				return;
 			}
+
 			var p = new RecDescentTraceStateParser(traceState, searchKey);
 			var parser = new RecDescentTraceStateParserImpl(traceState, new RecDescentTraceStateParserImpl.EntryFoundCallback(p.EntryFound));
 			parser.ParseTraceState();

@@ -43,6 +43,15 @@ namespace TraceStateParsers.Tests {
 		[Theory]
 		[ClassData(typeof(TestDataProvider))]
 		[ClassData(typeof(BlankFixingTestDataProvider))]
+		public void FastTokenizerTraceStateParserTest(TestData testData) {
+			FastTokenizerTraceStateParser.Parse(testData.TraceState, testData.SearchKey, out string foundTraceStateEntry, out string strippedTraceState);
+			Assert.Equal(testData.ExpectedFoundTraceStateEntry, foundTraceStateEntry);
+			Assert.Equal(testData.ExpectedStrippedTraceState, strippedTraceState);
+		}
+
+		[Theory]
+		[ClassData(typeof(TestDataProvider))]
+		[ClassData(typeof(BlankFixingTestDataProvider))]
 		public void RecDescentTraceStateParserTest(TestData testData) {
 			RecDescentTraceStateParser.Parse(testData.TraceState, testData.SearchKey, out string foundTraceStateEntry, out string strippedTraceState);
 			Assert.Equal(testData.ExpectedFoundTraceStateEntry, foundTraceStateEntry);

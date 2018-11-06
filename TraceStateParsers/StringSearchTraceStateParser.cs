@@ -12,6 +12,12 @@ namespace TraceStateParsers {
 	/// </summary>
 	public static class StringSearchTraceStateParser {
 		public static void Parse(string traceState, string searchKey, out string foundTraceStateEntry, out string strippedTraceState) {
+			if (string.IsNullOrEmpty(traceState)) {
+				foundTraceStateEntry = null;
+				strippedTraceState = string.Empty;
+				return;
+			}
+
 			foundTraceStateEntry = null;
 			string searchKeyWithEquals = searchKey + "=";
 			var strippedTraceStateSb = new StringBuilder(traceState.Length);

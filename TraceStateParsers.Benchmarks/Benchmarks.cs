@@ -12,7 +12,7 @@ using TraceStateParsers;
 namespace TraceStateParsers.Benchmarks {
 
 	[MarkdownExporter, AsciiDocExporter, HtmlExporter, CsvExporter, RPlotExporter]
-	//[MemoryDiagnoser]
+	[MemoryDiagnoser]
 	//[HardwareCounters(HardwareCounter.BranchMispredictions, HardwareCounter.BranchInstructions)]
 
 	//[ShortRunJob] // will yield quicker results, but less accurate. 
@@ -65,6 +65,12 @@ namespace TraceStateParsers.Benchmarks {
 		[ArgumentsSource(nameof(TraceStateParams))]
 		public void StringSplitParser(Input input) {
 			StringSplitTraceStateParser.Parse(input.TraceState, input.SearchKey, out string found, out string rest);
+		}
+
+		[Benchmark]
+		[ArgumentsSource(nameof(TraceStateParams))]
+		public void FastTokenizerParser(Input input) {
+			FastTokenizerTraceStateParser.Parse(input.TraceState, input.SearchKey, out string found, out string rest);
 		}
 
 		[Benchmark]

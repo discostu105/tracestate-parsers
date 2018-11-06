@@ -8,6 +8,12 @@ namespace TraceStateParsers {
 	/// </summary>
 	public static class StringSplitTraceStateParser {
 		public static void Parse(string traceState, string searchKey, out string foundTraceStateEntry, out string strippedTraceState) {
+			if (string.IsNullOrEmpty(traceState)) {
+				foundTraceStateEntry = null;
+				strippedTraceState = string.Empty;
+				return;
+			}
+
 			foundTraceStateEntry = null;
 			var splitted = traceState.Split(',');
 			var nonSearchedEntriesSb = new StringBuilder(traceState.Length);
