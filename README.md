@@ -25,45 +25,45 @@ Intel Core i9-8950HK CPU 2.90GHz, 1 CPU, 12 logical and 6 physical cores
 
 
 ```
-|               Method |              input |         Mean |      Error |     StdDev |
-|--------------------- |------------------- |-------------:|-----------:|-----------:|
-|    **StringSplitParser** |              **emtpy** |    **52.812 ns** |  **0.4608 ns** |  **0.4085 ns** |
-|           DictParser |              emtpy |     9.457 ns |  0.3694 ns |  0.3456 ns |
-|   StringSearchParser |              emtpy |    52.702 ns |  1.0847 ns |  2.4261 ns |
-|     RecDescentParser |              emtpy |     2.834 ns |  0.0447 ns |  0.0397 ns |
-| FastRecDescentParser |              emtpy |     9.861 ns |  0.2254 ns |  0.3160 ns |
-|    **StringSplitParser** |      **many_firstpos** |   **569.023 ns** | **10.9426 ns** | **10.7471 ns** |
-|           DictParser |      many_firstpos | 8,328.487 ns | 20.5243 ns | 17.1387 ns |
-|   StringSearchParser |      many_firstpos |   316.607 ns |  6.5940 ns | 11.1971 ns |
-|     RecDescentParser |      many_firstpos | 1,150.061 ns | 22.4338 ns | 26.7058 ns |
-| FastRecDescentParser |      many_firstpos | 1,059.628 ns | 16.6044 ns | 13.8654 ns |
-|    **StringSplitParser** |       **many_lastpos** |   **646.834 ns** | **11.9678 ns** | **10.6091 ns** |
-|           DictParser |       many_lastpos | 9,205.349 ns | 45.1800 ns | 40.0509 ns |
-|   StringSearchParser |       many_lastpos |   370.021 ns |  4.0623 ns |  3.6011 ns |
-|     RecDescentParser |       many_lastpos | 1,172.275 ns | 23.1548 ns | 41.1577 ns |
-| FastRecDescentParser |       many_lastpos | 1,045.296 ns | 20.4747 ns | 20.1089 ns |
-|    **StringSplitParser** |     **multi_firstpos** |   **364.999 ns** |  **5.2163 ns** |  **4.3559 ns** |
-|           DictParser |     multi_firstpos | 2,286.776 ns | 45.7449 ns | 65.6059 ns |
-|   StringSearchParser |     multi_firstpos |   399.827 ns |  7.9201 ns |  9.7266 ns |
-|     RecDescentParser |     multi_firstpos |   542.975 ns |  6.4670 ns |  5.7328 ns |
-| FastRecDescentParser |     multi_firstpos |   515.257 ns |  3.9700 ns |  3.7135 ns |
-|    **StringSplitParser** |      **multi_lastpos** |   **384.420 ns** |  **7.2502 ns** | **12.3115 ns** |
-|           DictParser |      multi_lastpos | 2,140.306 ns | 41.9171 ns | 43.0458 ns |
-|   StringSearchParser |      multi_lastpos |   519.219 ns | 10.3507 ns | 19.9423 ns |
-|     RecDescentParser |      multi_lastpos |   537.764 ns | 10.6558 ns | 14.5857 ns |
-| FastRecDescentParser |      multi_lastpos |   502.456 ns |  4.7637 ns |  4.4560 ns |
-|    **StringSplitParser** | **multi_lastpos_long** |   **947.326 ns** |  **3.0243 ns** |  **2.6810 ns** |
-|           DictParser | multi_lastpos_long | 3,148.891 ns | 61.5690 ns | 82.1928 ns |
-|   StringSearchParser | multi_lastpos_long | 1,244.379 ns | 19.2770 ns | 17.0885 ns |
-|     RecDescentParser | multi_lastpos_long | 1,682.071 ns | 23.6840 ns | 22.1540 ns |
-| FastRecDescentParser | multi_lastpos_long | 1,509.594 ns | 29.8859 ns | 45.6389 ns |
-|    **StringSplitParser** |         **multi_miss** |   **294.175 ns** |  **4.6758 ns** |  **4.3738 ns** |
-|           DictParser |         multi_miss | 1,715.938 ns | 33.7224 ns | 43.8487 ns |
-|   StringSearchParser |         multi_miss |   144.956 ns |  2.8985 ns |  6.6015 ns |
-|     RecDescentParser |         multi_miss |   535.030 ns | 10.6048 ns | 10.8904 ns |
-| FastRecDescentParser |         multi_miss |   535.551 ns | 10.5131 ns | 13.2956 ns |
-|    **StringSplitParser** |             **single** |   **161.258 ns** |  **1.7321 ns** |  **1.5355 ns** |
-|           DictParser |             single |   951.644 ns | 18.2171 ns | 17.0403 ns |
-|   StringSearchParser |             single |   206.358 ns |  0.8279 ns |  0.7744 ns |
-|     RecDescentParser |             single |   178.980 ns |  1.0601 ns |  0.9397 ns |
-| FastRecDescentParser |             single |   160.022 ns |  3.1741 ns |  2.8137 ns |
+|               Method |              input |         Mean |      Error |     StdDev | Gen 0/1k Op | Gen 1/1k Op | Gen 2/1k Op | Allocated Memory/Op |
+|--------------------- |------------------- |-------------:|-----------:|-----------:|------------:|------------:|------------:|--------------------:|
+|    **StringSplitParser** |              **emtpy** |    **52.087 ns** |  **0.3905 ns** |  **0.3261 ns** |      **0.0216** |           **-** |           **-** |               **136 B** |
+|           DictParser |              emtpy |     9.838 ns |  0.2250 ns |  0.3004 ns |           - |           - |           - |                   - |
+|   StringSearchParser |              emtpy |    52.408 ns |  1.0596 ns |  1.0406 ns |      0.0266 |           - |           - |               168 B |
+|     RecDescentParser |              emtpy |     2.885 ns |  0.0200 ns |  0.0177 ns |           - |           - |           - |                   - |
+| FastRecDescentParser |              emtpy |     9.911 ns |  0.1624 ns |  0.1519 ns |           - |           - |           - |                   - |
+|    **StringSplitParser** |      **many_firstpos** |   **541.530 ns** | **10.8440 ns** | **11.6029 ns** |      **0.1707** |           **-** |           **-** |              **1080 B** |
+|           DictParser |      many_firstpos | 7,631.660 ns | 62.3363 ns | 55.2595 ns |      0.5188 |           - |           - |              3272 B |
+|   StringSearchParser |      many_firstpos |   323.356 ns |  6.4685 ns |  8.1805 ns |      0.0720 |           - |           - |               456 B |
+|     RecDescentParser |      many_firstpos | 1,092.079 ns | 11.8969 ns | 11.1284 ns |      0.1049 |           - |           - |               672 B |
+| FastRecDescentParser |      many_firstpos | 1,057.344 ns | 12.7302 ns | 11.9078 ns |      0.0896 |           - |           - |               568 B |
+|    **StringSplitParser** |       **many_lastpos** |   **675.842 ns** | **13.1627 ns** | **19.2937 ns** |      **0.1707** |           **-** |           **-** |              **1080 B** |
+|           DictParser |       many_lastpos | 8,392.330 ns | 76.1775 ns | 71.2564 ns |      0.5188 |           - |           - |              3272 B |
+|   StringSearchParser |       many_lastpos |   366.460 ns |  5.2793 ns |  4.9383 ns |      0.0925 |           - |           - |               584 B |
+|     RecDescentParser |       many_lastpos | 1,109.195 ns | 21.9613 ns | 21.5690 ns |      0.1049 |           - |           - |               672 B |
+| FastRecDescentParser |       many_lastpos | 1,083.954 ns | 20.8697 ns | 19.5216 ns |      0.0896 |           - |           - |               568 B |
+|    **StringSplitParser** |     **multi_firstpos** |   **362.120 ns** |  **2.6283 ns** |  **2.1947 ns** |      **0.2031** |           **-** |           **-** |              **1280 B** |
+|           DictParser |     multi_firstpos | 2,067.667 ns | 38.8063 ns | 51.8053 ns |      0.3014 |           - |           - |              1912 B |
+|   StringSearchParser |     multi_firstpos |   420.374 ns |  7.4590 ns |  6.9771 ns |      0.1636 |           - |           - |              1032 B |
+|     RecDescentParser |     multi_firstpos |   562.079 ns |  7.6319 ns |  6.7655 ns |      0.1192 |           - |           - |               752 B |
+| FastRecDescentParser |     multi_firstpos |   516.077 ns | 10.2128 ns | 10.9276 ns |      0.1020 |           - |           - |               648 B |
+|    **StringSplitParser** |      **multi_lastpos** |   **388.309 ns** |  **4.7480 ns** |  **4.4413 ns** |      **0.2007** |           **-** |           **-** |              **1264 B** |
+|           DictParser |      multi_lastpos | 1,913.890 ns | 22.4936 ns | 18.7832 ns |      0.3052 |           - |           - |              1928 B |
+|   StringSearchParser |      multi_lastpos |   496.600 ns |  9.5956 ns | 13.1345 ns |      0.1965 |           - |           - |              1240 B |
+|     RecDescentParser |      multi_lastpos |   573.820 ns |  5.7078 ns |  5.3390 ns |      0.1192 |           - |           - |               752 B |
+| FastRecDescentParser |      multi_lastpos |   518.213 ns | 16.6467 ns | 19.1703 ns |      0.1020 |           - |           - |               648 B |
+|    **StringSplitParser** | **multi_lastpos_long** |   **946.675 ns** |  **8.2985 ns** |  **6.9296 ns** |      **0.6914** |      **0.0038** |           **-** |              **4352 B** |
+|           DictParser | multi_lastpos_long | 2,973.322 ns | 46.8982 ns | 43.8686 ns |      0.9651 |      0.0076 |           - |              6096 B |
+|   StringSearchParser | multi_lastpos_long | 1,220.134 ns | 23.9911 ns | 25.6702 ns |      0.8488 |      0.0019 |           - |              5344 B |
+|     RecDescentParser | multi_lastpos_long | 1,766.899 ns |  8.9943 ns |  7.9732 ns |      0.3643 |           - |           - |              2296 B |
+| FastRecDescentParser | multi_lastpos_long | 1,484.939 ns | 30.5851 ns | 28.6093 ns |      0.3471 |           - |           - |              2192 B |
+|    **StringSplitParser** |         **multi_miss** |   **294.332 ns** |  **5.9053 ns** |  **6.0643 ns** |      **0.1345** |           **-** |           **-** |               **848 B** |
+|           DictParser |         multi_miss | 1,757.902 ns | 35.1105 ns | 43.1189 ns |      0.3223 |           - |           - |              2040 B |
+|   StringSearchParser |         multi_miss |   139.866 ns |  1.1352 ns |  1.0618 ns |      0.0570 |           - |           - |               360 B |
+|     RecDescentParser |         multi_miss |   558.143 ns | 11.0340 ns | 12.7068 ns |      0.1135 |           - |           - |               720 B |
+| FastRecDescentParser |         multi_miss |   516.521 ns |  9.9914 ns |  9.3459 ns |      0.0973 |           - |           - |               616 B |
+|    **StringSplitParser** |             **single** |   **165.805 ns** |  **3.3145 ns** |  **4.1918 ns** |      **0.0558** |           **-** |           **-** |               **352 B** |
+|           DictParser |             single |   806.858 ns | 15.4614 ns | 15.1852 ns |      0.0896 |           - |           - |               568 B |
+|   StringSearchParser |             single |   205.768 ns |  2.3911 ns |  1.9967 ns |      0.0455 |           - |           - |               288 B |
+|     RecDescentParser |             single |   181.992 ns |  3.5134 ns |  3.1145 ns |      0.0622 |           - |           - |               392 B |
+| FastRecDescentParser |             single |   168.468 ns |  3.3429 ns |  3.8497 ns |      0.0455 |           - |           - |               288 B |
